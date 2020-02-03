@@ -32,4 +32,38 @@ class DatabaseHelper {
       'CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $NAME TEXT, $AMOUNT DOUBLE, $IS_PAID TEXT)'
     );
   }
+
+  Future<int> insertBro(Bro bro) async {
+    var dbClient = await db;
+    var result = await dbClient.insert(TABLE, bro.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+
+    return result;
+  }
+
+  Future<List<Bro>> bros() async {
+    var dbClient = await db;
+
+    final List<Map<String, dynamic>> maps = await dbClient.query(TABLE);
+
+    return List.generate(maps.length, (i) {
+      return Bro(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        amount: maps[i]['amount'],
+        isPaid: maps[i]['isPaid'],
+      );
+    });
+  }
+
+  Future<void> updateBro(Bro bro) async {
+    var dbClient = await db;
+
+    await dbClient.update(TABLE, bro.toMap(), where: "id = ?", whereArgs: [bro.id]);
+  }
+
+  Future<void> deleteDog(int id) async {
+    var dbClient = await db;
+
+    await dbClient.delete(TABLE, where: "id = ?", whereArgs: [id]);
+  }
 }
