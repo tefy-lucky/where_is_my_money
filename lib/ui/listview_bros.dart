@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:where_is_my_money/model/bro.dart';
 import 'package:where_is_my_money/ui/update_bro_screen.dart';
 import 'package:where_is_my_money/util/database_helper.dart';
@@ -15,6 +16,7 @@ class ListViewBros extends StatefulWidget {
 class _ListViewBros extends State<ListViewBros> {
   List<Bro> items = new List();
   DatabaseHelper databaseHelper = new DatabaseHelper();
+  var f = new NumberFormat("#,###,###.##");
 
   @override
   void initState() {
@@ -72,7 +74,7 @@ class _ListViewBros extends State<ListViewBros> {
                       children: <Widget>[
                         Icon(Icons.account_balance_wallet,
                             color: Colors.yellowAccent),
-                        Text('${items[index].amount}',
+                        Text(' Ar ${f.format(items[index].amount)}',
                             style: TextStyle(color: Colors.white)),
                       ],
                     ),
