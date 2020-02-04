@@ -61,7 +61,7 @@ class DatabaseHelper {
     await dbClient.update(TABLE, bro.toMap(), where: "id = ?", whereArgs: [bro.id]);
   }
 
-  Future<void> deleteDog(int id) async {
+  Future<void> deleteBro(int id) async {
     var dbClient = await db;
 
     await dbClient.delete(TABLE, where: "id = ?", whereArgs: [id]);
