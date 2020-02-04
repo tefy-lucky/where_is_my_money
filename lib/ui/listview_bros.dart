@@ -81,7 +81,7 @@ class _ListViewBros extends State<ListViewBros> {
                     trailing: IconButton(
                       icon: const Icon(Icons.delete,
                           color: Colors.white, size: 30.0),
-                      onPressed: () => {},
+                      onPressed: () => _delete(context, items[index], index),
                     ),
                     onTap: () => _navigateToEditPage(context, items[index]),
                   ),
@@ -96,6 +96,13 @@ class _ListViewBros extends State<ListViewBros> {
         ),
       ),
     );
+  }
+
+  void _delete(BuildContext context, Bro bro, int position) async {
+    await databaseHelper.deleteBro(bro.id);
+    setState(() {
+      items.removeAt(position);
+    });
   }
 
   void _navigateToEditPage(BuildContext context, Bro bro) async {
