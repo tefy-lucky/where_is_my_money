@@ -22,7 +22,7 @@ class _BroScreenState extends State<BroScreen> {
     super.initState();
 
     _nameController = new TextEditingController(text: widget.bro.name);
-    _amountController = new TextEditingController(text: widget.bro.amount);
+    // _amountController = new TextEditingController(text: widget.bro.amount);
   }
 
   @override
