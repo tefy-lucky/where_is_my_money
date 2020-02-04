@@ -95,18 +95,37 @@ class _ListViewBros extends State<ListViewBros> {
       ),
     );
   }
-}
 
-void _navigateToEditPage(BuildContext context, Bro bro) async {
-  await Navigator.push(context, MaterialPageRoute(builder: (context) => BroScreen(bro)));
-}
+  void _navigateToEditPage(BuildContext context, Bro bro) async {
+    String result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => BroScreen(bro)));
 
-void _new(BuildContext context) async {
-  final Bro bro = Bro(
-    id: null,
-    name: '',
-    amount: 0.0,
-    isPaid: false
-  );
-  await Navigator.push(context, MaterialPageRoute(builder: (context) => BroScreen(bro)));
+    if (result == 'update') {
+      databaseHelper.bros().then((bros) {
+        setState(() {
+          items.clear();
+          bros.forEach((bro) {
+            items.add(bro);
+          });
+        });
+      });
+    }
+  }
+
+  void _new(BuildContext context) async {
+    final Bro bro = Bro(id: null, name: '', amount: 0.0, isPaid: false);
+    String result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => BroScreen(bro)));
+
+    if (result == 'save') {
+      databaseHelper.bros().then((bros) {
+        setState(() {
+          items.clear();
+          bros.forEach((bro) {
+            items.add(bro);
+          });
+        });
+      });
+    }
+  }
 }

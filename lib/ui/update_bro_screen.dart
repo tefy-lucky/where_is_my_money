@@ -57,10 +57,12 @@ class _BroScreenState extends State<BroScreen> {
               onPressed: () {
                 if (widget.bro.id != null) {
                 } else {
-                  db.insertBro(Bro(
+                  db
+                      .insertBro(Bro(
                     name: _nameController.text,
                     amount: double.parse(_amountController.text),
-                  )).then((_) {
+                  ))
+                      .then((_) {
                     Navigator.pop(context, 'save');
                   });
                 }
