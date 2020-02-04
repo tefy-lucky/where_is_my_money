@@ -37,13 +37,34 @@ class _BroScreenState extends State<BroScreen> {
           children: <Widget>[
             TextField(
               controller: _nameController,
-              decoration: new InputDecoration(labelText: "Name", icon: Icon(Icons.person)),
+              decoration: new InputDecoration(
+                  labelText: "Name", icon: Icon(Icons.person)),
             ),
-            Padding(padding: new EdgeInsets.all(5.0),),
+            Padding(
+              padding: new EdgeInsets.all(5.0),
+            ),
             TextField(
               controller: _amountController,
-              decoration: new InputDecoration(labelText: "Amount", icon: Icon(Icons.attach_money)),
+              decoration: new InputDecoration(
+                  labelText: "Amount", icon: Icon(Icons.attach_money)),
               keyboardType: TextInputType.number,
+            ),
+            Padding(
+              padding: new EdgeInsets.all(5.0),
+            ),
+            RaisedButton(
+              child: (widget.bro.id != null) ? Text('Update') : Text('Add'),
+              onPressed: () {
+                if (widget.bro.id != null) {
+                } else {
+                  db.insertBro(Bro(
+                    name: _nameController.text,
+                    amount: double.parse(_amountController.text),
+                  )).then((_) {
+                    Navigator.pop(context, 'save');
+                  });
+                }
+              },
             ),
           ],
         ),

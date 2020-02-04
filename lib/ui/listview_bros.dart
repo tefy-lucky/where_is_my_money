@@ -103,7 +103,7 @@ void _navigateToEditPage(BuildContext context, Bro bro) async {
 
 void _new(BuildContext context) async {
   final Bro bro = Bro(
-    id: 0,
+    id: null,
     name: '',
     amount: 0.0,
     isPaid: false
