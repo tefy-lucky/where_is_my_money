@@ -56,6 +56,13 @@ class _BroScreenState extends State<BroScreen> {
               child: (widget.bro.id != null) ? Text('Update') : Text('Add'),
               onPressed: () {
                 if (widget.bro.id != null) {
+                  var bro = Bro(
+                      id: widget.bro.id,
+                      name: widget.bro.name,
+                      amount: double.parse(_amountController.text));
+                  db.updateBro(bro).then((_) {
+                    Navigator.pop(context, 'update');
+                  });
                 } else {
                   db
                       .insertBro(Bro(
