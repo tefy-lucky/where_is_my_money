@@ -76,6 +76,7 @@ class _BroScreenState extends State<BroScreen> {
             TextField(
               controller: _additionController,
               decoration: new InputDecoration(
+                  labelText: "So he/she wants more uh?",
                   icon: Icon(Icons.add),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
@@ -88,6 +89,7 @@ class _BroScreenState extends State<BroScreen> {
             TextField(
               controller: _substractionController,
               decoration: new InputDecoration(
+                  labelText: "This is good",
                   icon: Icon(Icons.remove),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
