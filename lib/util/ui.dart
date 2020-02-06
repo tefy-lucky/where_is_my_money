@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 AppBar getDefaultAppBar(String title) {
@@ -7,7 +8,7 @@ AppBar getDefaultAppBar(String title) {
   );
 }
 
-void showAlert(BuildContext context, String title, String content) {
+void showSimpleAlert(BuildContext context, String title, String content) {
   showDialog(
       barrierDismissible: false,
       context: context,
@@ -17,11 +18,17 @@ void showAlert(BuildContext context, String title, String content) {
           content: Text(content),
           actions: <Widget>[
             FlatButton(
-              child: Text("OK"),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(Icons.check),
+                  Text(" OK, I'm sorry!!!")
+                ],
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            )
+            ),
           ],
         );
       });

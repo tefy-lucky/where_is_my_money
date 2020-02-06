@@ -17,9 +17,9 @@ class _BroScreenState extends State<BroScreen> {
 
   TextEditingController _nameController;
   TextEditingController _amountController;
-  TextEditingController _substractionController;
+  TextEditingController _subtractionController;
   TextEditingController _additionController;
-  bool lock, nameLock = true;
+  bool lock, nameAndAmountLock = true;
 
   @override
   void initState() {
@@ -31,13 +31,13 @@ class _BroScreenState extends State<BroScreen> {
         lock = false;
       });
     } else {
-      nameLock = false;
+      nameAndAmountLock = false;
     }
 
     _nameController = new TextEditingController(text: '${widget.bro.name}');
     _amountController = new TextEditingController(text: '${widget.bro.amount}');
     _additionController = new TextEditingController(text: '${0.0}');
-    _substractionController = new TextEditingController(text: '${0.0}');
+    _subtractionController = new TextEditingController(text: '${0.0}');
   }
 
   @override
@@ -56,7 +56,7 @@ class _BroScreenState extends State<BroScreen> {
                   icon: Icon(Icons.person),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
-              enabled: nameLock,
+              enabled: nameAndAmountLock,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -69,6 +69,7 @@ class _BroScreenState extends State<BroScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
               keyboardType: TextInputType.number,
+              enabled: nameAndAmountLock,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -87,7 +88,7 @@ class _BroScreenState extends State<BroScreen> {
               padding: new EdgeInsets.all(5.0),
             ),
             TextField(
-              controller: _substractionController,
+              controller: _subtractionController,
               decoration: new InputDecoration(
                   labelText: "This is good",
                   icon: Icon(Icons.remove),
@@ -104,22 +105,33 @@ class _BroScreenState extends State<BroScreen> {
               onPressed: () {
                 try {
                   if (widget.bro.id != null) {
-                    var bro = Bro(
-                        id: widget.bro.id,
-                        name: widget.bro.name,
-                        amount: double.parse(_amountController.text));
-                    db.updateBro(bro).then((_) {
-                      Navigator.pop(context, 'update');
-                    });
+                    double addition = double.parse(_additionController.text);
+                    double subtraction =
+                        double.parse(_subtractionController.text);
+                    double newAmount = double.parse(_amountController.text) +
+                        addition -
+                        subtraction;
+                    if (!(newAmount > 0)) {
+                      showSimpleAlert(context, "Wait, what?",
+                          "Okay so now he/she must pay you Ar ${newAmount}? Everything is fine?");
+                    } else {
+                      var bro = Bro(
+                          id: widget.bro.id,
+                          name: widget.bro.name,
+                          amount: newAmount);
+                      db.updateBro(bro).then((_) {
+                        Navigator.pop(context, 'update');
+                      });
+                    }
                   } else {
-                    if (_nameController.text == '') {
-                      showAlert(context, "No name",
-                          "You dare to tell me your bro doesn't have a name?");
+                    if (_nameController.text.trim() == '') {
+                      showSimpleAlert(context, "No name",
+                          "So your bro doesn't have a name uh?");
                     } else {
                       db
                           .insertBro(Bro(
-                        name: _nameController.text,
-                        amount: double.parse(_amountController.text),
+                        name: _nameController.text.trim(),
+                        amount: double.parse(_amountController.text.trim()),
                       ))
                           .then((_) {
                         Navigator.pop(context, 'save');
@@ -127,8 +139,8 @@ class _BroScreenState extends State<BroScreen> {
                     }
                   }
                 } on FormatException {
-                  showAlert(context, "Invalid amout",
-                      "Please provide a valid amount");
+                  showSimpleAlert(context, "Invalid amout",
+                      "You serious right now? Please use the format provided.");
                 }
               },
             ),
