@@ -19,12 +19,18 @@ class _BroScreenState extends State<BroScreen> {
   TextEditingController _amountController;
   TextEditingController _substractionController;
   TextEditingController _additionController;
-  bool disabled = true;
+  bool lock = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if (widget.bro.id == null) {
+      setState(() {
+        lock = false;
+      });
+    }
 
     _nameController = new TextEditingController(text: '${widget.bro.name}');
     _amountController = new TextEditingController(text: '${widget.bro.amount}');
@@ -71,7 +77,7 @@ class _BroScreenState extends State<BroScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
               keyboardType: TextInputType.number,
-              enabled: false,
+              enabled: lock,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -83,7 +89,7 @@ class _BroScreenState extends State<BroScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
               keyboardType: TextInputType.number,
-              enabled: disabled,
+              enabled: lock,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -100,9 +106,6 @@ class _BroScreenState extends State<BroScreen> {
                     Navigator.pop(context, 'update');
                   });
                 } else {
-                  setState(() {
-                    disabled = false;
-                  });
                   db
                       .insertBro(Bro(
                     name: _nameController.text,
