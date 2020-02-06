@@ -37,9 +37,7 @@ class _ListViewBros extends State<ListViewBros> {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Where is my money',
-      theme: new ThemeData(primaryColor: Color.fromRGBO(58, 66, 86, 1.0)),
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         appBar: getDefaultAppBar('List'),
         body: Container(
           child: ListView.builder(
@@ -52,31 +50,24 @@ class _ListViewBros extends State<ListViewBros> {
                 margin:
                     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration:
-                      BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
                       padding: EdgeInsets.only(right: 12.0),
                       decoration: new BoxDecoration(
-                          border: new Border(
-                              right: new BorderSide(
-                                  width: 1.0, color: Colors.white24))),
-                      child:
-                          Icon(Icons.person, color: Colors.white, size: 30.0),
+                          border:
+                              new Border(right: new BorderSide(width: 1.0))),
+                      child: Icon(Icons.account_circle, size: 30.0),
                     ),
                     title: Text(
                       '${items[index].name}',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Row(
                       children: <Widget>[
-                        Icon(Icons.account_balance_wallet,
-                            color: Colors.yellowAccent),
-                        Text(' Ar ${f.format(items[index].amount)}',
-                            style: TextStyle(color: Colors.white)),
+//                        Icon(Icons.attach_money),
+                        Text('Ar ${f.format(items[index].amount)}'),
                       ],
                     ),
                     trailing: Row(
@@ -85,7 +76,6 @@ class _ListViewBros extends State<ListViewBros> {
                         IconButton(
                           icon: Icon(
                             Icons.delete,
-                            color: Colors.white,
                             size: 30.0,
                           ),
                           onPressed: () =>
@@ -94,7 +84,6 @@ class _ListViewBros extends State<ListViewBros> {
                         IconButton(
                           icon: Icon(
                             Icons.archive,
-                            color: Colors.white,
                             size: 30.0,
                           ),
                           onPressed: () =>
