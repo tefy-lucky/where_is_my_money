@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:where_is_my_money/model/bro.dart';
 import 'package:where_is_my_money/util/database_helper.dart';
@@ -16,6 +17,9 @@ class _BroScreenState extends State<BroScreen> {
 
   TextEditingController _nameController;
   TextEditingController _amountController;
+  TextEditingController _substractionController;
+  TextEditingController _additionController;
+  bool disabled = true;
 
   @override
   void initState() {
@@ -24,6 +28,8 @@ class _BroScreenState extends State<BroScreen> {
 
     _nameController = new TextEditingController(text: '${widget.bro.name}');
     _amountController = new TextEditingController(text: '${widget.bro.amount}');
+    _additionController = new TextEditingController(text: '${0.0}');
+    _substractionController = new TextEditingController(text: '${0.0}');
   }
 
   @override
@@ -38,7 +44,10 @@ class _BroScreenState extends State<BroScreen> {
             TextField(
               controller: _nameController,
               decoration: new InputDecoration(
-                  labelText: "Name", icon: Icon(Icons.person)),
+                  labelText: "Name",
+                  icon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -46,8 +55,35 @@ class _BroScreenState extends State<BroScreen> {
             TextField(
               controller: _amountController,
               decoration: new InputDecoration(
-                  labelText: "Amount", icon: Icon(Icons.attach_money)),
+                  labelText: "Amount",
+                  icon: Icon(Icons.attach_money),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
               keyboardType: TextInputType.number,
+            ),
+            Padding(
+              padding: new EdgeInsets.all(5.0),
+            ),
+            TextField(
+              controller: _additionController,
+              decoration: new InputDecoration(
+                  icon: Icon(Icons.add),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
+              keyboardType: TextInputType.number,
+              enabled: false,
+            ),
+            Padding(
+              padding: new EdgeInsets.all(5.0),
+            ),
+            TextField(
+              controller: _substractionController,
+              decoration: new InputDecoration(
+                  icon: Icon(Icons.remove),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
+              keyboardType: TextInputType.number,
+              enabled: disabled,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
@@ -64,6 +100,9 @@ class _BroScreenState extends State<BroScreen> {
                     Navigator.pop(context, 'update');
                   });
                 } else {
+                  setState(() {
+                    disabled = false;
+                  });
                   db
                       .insertBro(Bro(
                     name: _nameController.text,
