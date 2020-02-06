@@ -102,23 +102,33 @@ class _BroScreenState extends State<BroScreen> {
             RaisedButton(
               child: (widget.bro.id != null) ? Text('Update') : Text('Add'),
               onPressed: () {
-                if (widget.bro.id != null) {
-                  var bro = Bro(
-                      id: widget.bro.id,
-                      name: widget.bro.name,
-                      amount: double.parse(_amountController.text));
-                  db.updateBro(bro).then((_) {
-                    Navigator.pop(context, 'update');
-                  });
-                } else {
-                  db
-                      .insertBro(Bro(
-                    name: _nameController.text,
-                    amount: double.parse(_amountController.text),
-                  ))
-                      .then((_) {
-                    Navigator.pop(context, 'save');
-                  });
+                try {
+                  if (widget.bro.id != null) {
+                    var bro = Bro(
+                        id: widget.bro.id,
+                        name: widget.bro.name,
+                        amount: double.parse(_amountController.text));
+                    db.updateBro(bro).then((_) {
+                      Navigator.pop(context, 'update');
+                    });
+                  } else {
+                    if (_nameController.text == '') {
+                      showAlert(context, "No name",
+                          "You dare to tell me your bro doesn't have a name?");
+                    } else {
+                      db
+                          .insertBro(Bro(
+                        name: _nameController.text,
+                        amount: double.parse(_amountController.text),
+                      ))
+                          .then((_) {
+                        Navigator.pop(context, 'save');
+                      });
+                    }
+                  }
+                } on FormatException {
+                  showAlert(context, "Invalid amout",
+                      "Please provide a valid amount");
                 }
               },
             ),

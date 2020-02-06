@@ -17,7 +17,7 @@ void showAlert(BuildContext context, String title, String content) {
           content: Text(content),
           actions: <Widget>[
             FlatButton(
-              child: Text("Close"),
+              child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
