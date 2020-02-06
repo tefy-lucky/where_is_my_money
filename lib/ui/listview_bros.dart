@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:where_is_my_money/model/bro.dart';
@@ -78,10 +79,28 @@ class _ListViewBros extends State<ListViewBros> {
                             style: TextStyle(color: Colors.white)),
                       ],
                     ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete,
-                          color: Colors.white, size: 30.0),
-                      onPressed: () => _delete(context, items[index], index),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 30.0,
+                          ),
+                          onPressed: () =>
+                              _delete(context, items[index], index),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.archive,
+                            color: Colors.white,
+                            size: 30.0,
+                          ),
+                          onPressed: () =>
+                              _delete(context, items[index], index),
+                        ),
+                      ],
                     ),
                     onTap: () => _navigateToEditPage(context, items[index]),
                   ),

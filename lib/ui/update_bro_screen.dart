@@ -19,7 +19,7 @@ class _BroScreenState extends State<BroScreen> {
   TextEditingController _amountController;
   TextEditingController _substractionController;
   TextEditingController _additionController;
-  bool lock = true;
+  bool lock, nameLock = true;
 
   @override
   void initState() {
@@ -30,6 +30,8 @@ class _BroScreenState extends State<BroScreen> {
       setState(() {
         lock = false;
       });
+    } else {
+      nameLock = false;
     }
 
     _nameController = new TextEditingController(text: '${widget.bro.name}');
@@ -54,6 +56,7 @@ class _BroScreenState extends State<BroScreen> {
                   icon: Icon(Icons.person),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0))),
+              enabled: nameLock,
             ),
             Padding(
               padding: new EdgeInsets.all(5.0),
