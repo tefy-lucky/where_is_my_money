@@ -118,10 +118,41 @@ class _ListViewBros extends State<ListViewBros> {
   }
 
   void _delete(BuildContext context, Bro bro, int position) async {
-    await databaseHelper.deleteBro(bro.id);
-    setState(() {
-      items.removeAt(position);
-    });
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("This one is paid?"),
+            content: Text(
+                "I must ask, [${bro.name}] has paid you the full amount of [Ar ${bro.amount}], you sure?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[Icon(Icons.insert_emoticon), Text(" YES")],
+                ),
+                onPressed: () {
+                  databaseHelper.deleteBro(bro.id).then((_) {
+                    setState(() {
+                      items.removeAt(position);
+                    });
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[Icon(Icons.cancel), Text(" Wait, NO")],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   void _navigateToEditPage(BuildContext context, Bro bro) async {

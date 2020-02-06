@@ -113,7 +113,7 @@ class _BroScreenState extends State<BroScreen> {
                         subtraction;
                     if (!(newAmount > 0)) {
                       showSimpleAlert(context, "Wait, what?",
-                          "Okay so now he/she must pay you Ar ${newAmount}? Everything is fine?");
+                          "Okay so now he/she must pay you Ar ${newAmount}? Everything is fine? Why don't you just delete the entry from the list if he/she doesn't owe you money anymore?");
                     } else {
                       var bro = Bro(
                           id: widget.bro.id,
