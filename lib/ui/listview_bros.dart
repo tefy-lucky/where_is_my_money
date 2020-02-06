@@ -125,7 +125,7 @@ class _ListViewBros extends State<ListViewBros> {
           return AlertDialog(
             title: Text("This one is paid?"),
             content: Text(
-                "I must ask, [${bro.name}] has paid you the full amount of [Ar ${bro.amount}], you sure?"),
+                "I must ask, [${bro.name}] has paid you the full amount of [Ar ${f.format(bro.amount)}], you sure?"),
             actions: <Widget>[
               FlatButton(
                 child: Row(
