@@ -100,49 +100,52 @@ class _BroScreenState extends State<BroScreen> {
             Padding(
               padding: new EdgeInsets.all(5.0),
             ),
-            RaisedButton(
-              child: (widget.bro.id != null) ? Text('Update') : Text('Add'),
-              onPressed: () {
-                try {
-                  if (widget.bro.id != null) {
-                    double addition = double.parse(_additionController.text);
-                    double subtraction =
-                        double.parse(_subtractionController.text);
-                    double newAmount = double.parse(_amountController.text) +
-                        addition -
-                        subtraction;
-                    if (!(newAmount > 0)) {
-                      showSimpleAlert(context, "Wait, what?",
-                          "Okay so now he/she must pay you Ar ${newAmount}? Everything is fine? Why don't you just delete the entry from the list if he/she doesn't owe you money anymore?");
+            ButtonTheme(
+              minWidth: MediaQuery.of(context).size.width,
+              child: RaisedButton(
+                child: (widget.bro.id != null) ? Text('UPDATE', style: TextStyle(color: Colors.white),) : Text('ADD', style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  try {
+                    if (widget.bro.id != null) {
+                      double addition = double.parse(_additionController.text);
+                      double subtraction =
+                          double.parse(_subtractionController.text);
+                      double newAmount = double.parse(_amountController.text) +
+                          addition -
+                          subtraction;
+                      if (!(newAmount > 0)) {
+                        showSimpleAlert(context, "Wait, what?",
+                            "Okay so now he/she must pay you Ar ${newAmount}? Everything is fine? Why don't you just delete the entry from the list if he/she doesn't owe you money anymore?");
+                      } else {
+                        var bro = Bro(
+                            id: widget.bro.id,
+                            name: widget.bro.name,
+                            amount: newAmount);
+                        db.updateBro(bro).then((_) {
+                          Navigator.pop(context, 'update');
+                        });
+                      }
                     } else {
-                      var bro = Bro(
-                          id: widget.bro.id,
-                          name: widget.bro.name,
-                          amount: newAmount);
-                      db.updateBro(bro).then((_) {
-                        Navigator.pop(context, 'update');
-                      });
+                      if (_nameController.text.trim() == '') {
+                        showSimpleAlert(context, "No name",
+                            "So your bro doesn't have a name uh?");
+                      } else {
+                        db
+                            .insertBro(Bro(
+                          name: _nameController.text.trim(),
+                          amount: double.parse(_amountController.text.trim()),
+                        ))
+                            .then((_) {
+                          Navigator.pop(context, 'save');
+                        });
+                      }
                     }
-                  } else {
-                    if (_nameController.text.trim() == '') {
-                      showSimpleAlert(context, "No name",
-                          "So your bro doesn't have a name uh?");
-                    } else {
-                      db
-                          .insertBro(Bro(
-                        name: _nameController.text.trim(),
-                        amount: double.parse(_amountController.text.trim()),
-                      ))
-                          .then((_) {
-                        Navigator.pop(context, 'save');
-                      });
-                    }
+                  } on FormatException {
+                    showSimpleAlert(context, "Invalid amout",
+                        "You serious right now? Please use the format provided.");
                   }
-                } on FormatException {
-                  showSimpleAlert(context, "Invalid amout",
-                      "You serious right now? Please use the format provided.");
-                }
-              },
+                },
+              ),
             ),
           ],
         ),
